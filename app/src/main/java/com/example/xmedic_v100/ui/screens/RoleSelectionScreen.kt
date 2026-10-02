@@ -86,7 +86,7 @@ fun RoleSelectionScreen(
     onContinue: (UserRole) -> Unit = {},
     onSkip: () -> Unit = {}
 ) {
-    var selectedRole by remember { mutableStateOf(UserRole.PACIENTE) }
+    var selectedRole by remember { mutableStateOf<UserRole?>(null) }
     val scrollState = rememberScrollState()
 
     Box(
@@ -222,7 +222,7 @@ fun RoleSelectionScreen(
 
             // Indicador de perfil seleccionado
             Text(
-                text = "Perfil seleccionado: ${selectedRole.title}",
+                text = "Perfil seleccionado: ${selectedRole?.title ?: "Ninguno"}",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 color = PrimaryTeal,
@@ -244,7 +244,8 @@ fun RoleSelectionScreen(
             // Botón Continuar (CTA Principal)
             XmedicPrimaryButton(
                 text = "Continuar",
-                onClick = { onContinue(selectedRole) },
+                enabled = selectedRole != null,
+                onClick = { selectedRole?.let { onContinue(it) } },
                 modifier = Modifier.fillMaxWidth()
             )
 

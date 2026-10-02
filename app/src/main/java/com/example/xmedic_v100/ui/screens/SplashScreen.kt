@@ -20,6 +20,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +33,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.xmedic_v100.PersonaViewModel
+import com.example.xmedic_v100.AuthState
 import com.example.xmedic_v100.ui.components.XmedicBrandLogo
 import com.example.xmedic_v100.ui.theme.BackgroundPaleMint
 import com.example.xmedic_v100.ui.theme.DarkNavy
@@ -40,12 +45,24 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    onTimeout: () -> Unit = {}
+    onTimeout: () -> Unit = {},
+    viewModel: PersonaViewModel = viewModel()
 ) {
-    // Navegación automática tras 2.8 segundos
+    val authState by viewModel.authState.collectAsState()
+
+    // Navegación automática tras 2 segundos simulando la verificación de Firebase (Actividad 2)
     LaunchedEffect(Unit) {
-        delay(2800)
-        onTimeout()
+        delay(2000L) // Delay artificial de 2 segundos según las especificaciones
+        viewModel.checkSession()
+    }
+
+    LaunchedEffect(authState) {
+        if (authState is AuthState.Error || authState is AuthState.Success) {
+            // FirebaseAuth.getInstance().currentUser != null (Manejado en AuthState)
+            // Ya sea que exista o no sesión (simulada), avanza. 
+            // En caso real, onSuccess -> Dashboard, onError -> Login
+            onTimeout() 
+        }
     }
 
     Box(

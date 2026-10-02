@@ -7,12 +7,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.xmedic_v100.ui.screens.LoginScreen
+import com.example.xmedic_v100.ui.screens.CreateAccountScreen
+import com.example.xmedic_v100.ui.screens.ForgotPasswordScreen
 import com.example.xmedic_v100.ui.screens.RoleSelectionScreen
 import com.example.xmedic_v100.ui.screens.SplashScreen
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
     object Login : Screen("login")
+    object CreateAccount : Screen("create_account")
+    object ForgotPassword : Screen("forgot_password")
     object RoleSelection : Screen("role_selection")
 }
 
@@ -39,7 +43,7 @@ fun XmedicNavHost(
         composable(Screen.Login.route) {
             LoginScreen(
                 onNavigateBack = {
-                    // Volver o salir
+                    navController.popBackStack()
                 },
                 onLoginSuccess = {
                     navController.navigate(Screen.RoleSelection.route)
@@ -49,10 +53,30 @@ fun XmedicNavHost(
                     navController.navigate(Screen.RoleSelection.route)
                 },
                 onForgotPassword = {
-                    // Diálogo de recuperación de contraseña
+                    navController.navigate(Screen.ForgotPassword.route)
                 },
                 onCreateAccount = {
-                    navController.navigate(Screen.RoleSelection.route)
+                    navController.navigate(Screen.CreateAccount.route)
+                }
+            )
+        }
+
+        composable(Screen.CreateAccount.route) {
+            CreateAccountScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onRegisterSuccess = { 
+                    navController.navigate(Screen.RoleSelection.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    } 
+                }
+            )
+        }
+
+        composable(Screen.ForgotPassword.route) {
+            ForgotPasswordScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onSuccess = { 
+                    navController.popBackStack() // Vuelve a login
                 }
             )
         }

@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">xmedic_v.1.0.0</string>
+    <string name="app_name">xmedic_v1.0.0</string>
+    <!-- Sustituye este valor por el Client ID Web real de tu proyecto en Google Cloud Console -->
+    <string name="default_web_client_id">512296376765-h3akg8qnubg7mqpkiv2tmrst1nau3mvi.apps.googleusercontent.com</string>
 </resources>

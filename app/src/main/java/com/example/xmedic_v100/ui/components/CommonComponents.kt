@@ -1,6 +1,6 @@
 package com.example.xmedic_v100.ui.components
 
-import androidx.compose.foundation.Canvas
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -35,8 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
+
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -45,6 +44,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import com.example.xmedic_v100.R
 import com.example.xmedic_v100.ui.theme.DarkNavy
 import com.example.xmedic_v100.ui.theme.PrimaryTeal
 import com.example.xmedic_v100.ui.theme.TextSlate
@@ -114,7 +116,11 @@ fun GoogleSignInButton(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            GoogleLogoIcon(modifier = Modifier.size(20.dp))
+            Image(
+                painter = painterResource(id = R.drawable.logo_google),
+                contentDescription = "Logo de Google",
+                modifier = Modifier.size(20.dp)
+            )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
                 text = "Continuar con Google",
@@ -292,22 +298,4 @@ fun XmedicBackButton(
     }
 }
 
-/**
- * Icono de Google con sus cuatro colores característicos
- */
-@Composable
-fun GoogleLogoIcon(modifier: Modifier = Modifier) {
-    // Dibujo vectorial simple para el icono de Google
-    Canvas(modifier = modifier) {
-        val w = size.width
-        val h = size.height
-        // Puedes reemplazarlo con un drawable R.drawable.ic_google en res/drawable
-        drawCircle(color = Color(0xFF4285F4), radius = w * 0.45f)
-        drawCircle(color = Color.White, radius = w * 0.25f)
-        drawRect(
-            color = Color(0xFF4285F4),
-            topLeft = Offset(w * 0.4f, h * 0.4f),
-            size = Size(w * 0.45f, h * 0.2f)
-        )
-    }
-}
+
